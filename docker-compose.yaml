@@ -1,0 +1,22 @@
+version: "2.3"
+services:
+  sd:
+    runtime: nvidia
+    container_name: sd
+    image: sd
+    restart: always
+    ports:
+      - "7860:7860"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ../embeddings:/stable-diffusion-webui/embeddings
+      - ./config.json:/stable-diffusion-webui/config.json
+      - /root/.cache:/root/.cache
+      - ../extensions:/stable-diffusion-webui/extensions
+      - ../localizations:/stable-diffusion-webui/localizations
+      - ../interrogate:/stable-diffusion-webui/interrogate
+      - ../models:/stable-diffusion-webui/models
+      - ../outputs:/stable-diffusion-webui/outputs
+      - ../repositories:/stable-diffusion-webui/repositories
+    command: /bin/bash webui.sh -f --port 7860 --server-name 0.0.0.0 --api --no-half --xformers --enable-insecure-extension-access --disable-nan-check --api-log
